@@ -22,15 +22,15 @@ POST http://localhost:3003/api/users/
 content-type: application/json
 
 {
-   "username":"groot",
-   "name":"root",
-   "password":"password"
+   "username":"reduxNote",
+   "name":"redux",
+   "password":"redux"
 }
 ###
 POST http://localhost:3003/api/login/
 content-type: application/json
 
 {
-   "username":"groot",
-   "password":"password"
+   "username":"reduxNote",
+   "password":"redux"
 }
