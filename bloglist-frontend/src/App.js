@@ -8,20 +8,30 @@ import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
 import { useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
+import { setBlogReducer } from "./reducers/blogReducer";
+import { useSelector } from "react-redux";
 
 const App = () => {
   const noteFormRef = useRef();
 
   const dispatch = useDispatch();
+  const importBlog = useSelector((state) => state.blog);
+  console.log(importBlog, "importBlog");
 
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
+  // console.log(blogs, "blogs of usestate");
+  //console.log(setBlogs, "setblog");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
   // const [message, setMessage] = useState({ message: null, type: null });
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => setBlogs(blogs));
+    blogService.getAll().then((blogs) => dispatch(setBlogReducer(blogs)));
+    //console.log(blogs, "blogs from inside useeffect");
+    // console.log(setBlogReducer(), "setblogfunc");
+    //console.log(blogService.getAll(), "blogservice func");
+    //console.log(blogService.getAll().then(), "till then func");
   }, []);
 
   //console.log(blogs, "blogs of data");
@@ -66,14 +76,14 @@ const App = () => {
     }
   };
 
-  const raisedLike = async (id) => {
-    const updatedBlog = blogs.find((blogs) => blogs.id === id);
+  // const raisedLike = async (id) => {
+  //   const updatedBlog = importBlog.find((blogs) => blogs.id === id);
 
-    const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
-    const response = await blogService.update(id, newBlog);
+  //   const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
+  //   const response = await blogService.update(id, newBlog);
 
-    setBlogs(blogs.map((blogs) => (blogs.id === id ? response : blogs)));
-  };
+  //   setBlogs(blogs.map((blogs) => (blogs.id === id ? response : blogs)));
+  // };
 
   const loginForm = () => (
     <Togglable buttonLabel="show me login">
@@ -92,23 +102,25 @@ const App = () => {
     setUser(null);
   };
 
-  const handleBlogCreate = async (blogObject) => {
-    const returnedBlog = await blogService.create(blogObject);
-    setBlogs(blogs.concat(returnedBlog));
-    //console.dir(noteFormRef.current(), "noteform");
-    noteFormRef.current();
-    //console.log(noteFormRef.current(), "returnedblog");
-  };
+  // const handleBlogCreate = async (blogObject) => {
+  //   const returnedBlog = await blogService.create(blogObject);
+  //   dispatch(appendBlog(returnedBlog));
+  //   // setBlogs(blogs.concat(returnedBlog));
+  //   //console.dir(noteFormRef.current(), "noteform");
+  //   noteFormRef.current();
+  //   //console.log(noteFormRef.current(), "returnedblog");
+  // };
 
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create new blog" ref={noteFormRef}>
-        <BlogForm createBlog={handleBlogCreate} />
+        <BlogForm />
+        {/* <BlogForm createBlog={handleBlogCreate} /> */}
       </Togglable>
     );
   };
 
-  const sortedBlogs = blogs.sort((a, b) => b.likes - a.likes);
+  //const sortedBlogs = importBlog.sort((a, b) => b.likes - a.likes);
   return (
     <div>
       <h2>blogs</h2>
@@ -127,15 +139,15 @@ const App = () => {
 
           <h2>new blog</h2>
           {blogForm()}
-          {sortedBlogs.map((blog) => (
+          {importBlog.map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}
-              setBlogs={setBlogs}
-              blogs={blogs}
+              // setBlogs={setBlogs}
+              // blogs={blogs}
               user={user}
               // setMessage={setMessage}
-              updateLikes={raisedLike}
+              // updateLikes={raisedLike}
             />
           ))}
         </>
