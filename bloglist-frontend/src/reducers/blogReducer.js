@@ -16,6 +16,8 @@ const createBlogSlice = createSlice({
       state.push(action.payload);
     },
     setBlogReducer(state, action) {
+      console.log(state, "state");
+      console.log(action, "action");
       console.log(action.payload, "setBlogReducer of reducer");
       return action.payload;
     },

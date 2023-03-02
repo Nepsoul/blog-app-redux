@@ -8,7 +8,7 @@ import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
 import { useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
-import { setBlogReducer } from "./reducers/blogReducer";
+import { setBlogReducer, appendBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -102,20 +102,23 @@ const App = () => {
     setUser(null);
   };
 
-  // const handleBlogCreate = async (blogObject) => {
-  //   const returnedBlog = await blogService.create(blogObject);
-  //   dispatch(appendBlog(returnedBlog));
-  //   // setBlogs(blogs.concat(returnedBlog));
-  //   //console.dir(noteFormRef.current(), "noteform");
-  //   noteFormRef.current();
-  //   //console.log(noteFormRef.current(), "returnedblog");
-  // };
+  const handleBlogCreate = async (blogObject) => {
+    console.log(blogObject, "within the create blgObj 107");
+    const returnedBlog = await blogService.create(blogObject);
+    console.log(blogObject, "blgObj line 109");
+    console.log(returnedBlog, "returnedBlog");
+    dispatch(appendBlog(returnedBlog));
+    // setBlogs(blogs.concat(returnedBlog));
+    //console.dir(noteFormRef.current(), "noteform");
+    noteFormRef.current();
+    //console.log(noteFormRef.current(), "returnedblog");
+  };
 
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create new blog" ref={noteFormRef}>
-        <BlogForm />
-        {/* <BlogForm createBlog={handleBlogCreate} /> */}
+        {/* <BlogForm /> */}
+        <BlogForm createBlog={handleBlogCreate} />
       </Togglable>
     );
   };
@@ -143,6 +146,7 @@ const App = () => {
             <Blog
               key={blog.id}
               blog={blog}
+              //importBlog={importBlog}
               // setBlogs={setBlogs}
               // blogs={blogs}
               user={user}

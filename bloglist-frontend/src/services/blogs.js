@@ -12,10 +12,14 @@ const getAll = () => {
 };
 
 const create = async (newObject) => {
+  console.log(newObject, "apinewOnj");
   const config = {
     headers: { Authorization: token },
   };
+  console.log("create api");
   const response = await axios.post(baseUrl, newObject, config);
+  console.log(response, "api response");
+  console.log(response.data, "response.data");
   return response.data;
 };
 

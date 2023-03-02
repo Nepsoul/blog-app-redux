@@ -1,18 +1,20 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
-import { createBlogs } from "../reducers/blogReducer";
+//import { createBlogs } from "../reducers/blogReducer";
 
 const BlogForm = ({ createBlog }) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [url, setUrl] = useState("");
 
+  // console.log(createBlog, "creatBlog");
   const dispatch = useDispatch();
   //console.log(setMessage);
   const handleBlogCreate = (event) => {
     event.preventDefault();
-    const handleNewBlog = event.target.value;
+    // const handleNewBlog = event.target.value;
+    // console.log(handleNewBlog, "handlenewBlog");
 
     createBlog({
       title,
@@ -24,7 +26,7 @@ const BlogForm = ({ createBlog }) => {
     setAuthor("");
     setUrl("");
 
-    dispatch(createBlogs(handleNewBlog));
+    //dispatch(createBlogs(handleNewBlog));
 
     dispatch(
       setNotification({
@@ -38,6 +40,7 @@ const BlogForm = ({ createBlog }) => {
       // setMessage(null);
     }, 5000);
   };
+  //console.log(handleBlogCreate, "handleBlogCreate");
 
   return (
     <div>
