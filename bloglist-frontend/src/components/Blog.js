@@ -1,10 +1,8 @@
 import { useState } from "react";
-//import blogService from "../services/blogs";
-//import { useDispatch } from "react-redux";
-//import { setNotification } from "../reducers/notificationReducer";
-//import { useSelector } from "react-redux";
-
-//====> for displaying blog detatil of other user's blog <=====
+// import blogService from "../services/blogs";
+// import { useDispatch } from "react-redux";
+// import { setNotification } from "../reducers/notificationReducer";
+// import { useSelector } from "react-redux";
 
 const Blog = ({ blog, updateLikes }) => {
   const [display, setDisplay] = useState(false);
@@ -79,7 +77,12 @@ const Blog = ({ blog, updateLikes }) => {
           <div className="url">{blog.url}</div>
           <div className="likes">
             likes: {blog.likes}{" "}
-            <button id="likeButton" onClick={() => updateLikes(blog.id)}>
+            <button
+              id="likeButton"
+              onClick={() =>
+                updateLikes(blog.id, { ...blog, likes: blog.likes + 1 })
+              }
+            >
               like
             </button>
           </div>

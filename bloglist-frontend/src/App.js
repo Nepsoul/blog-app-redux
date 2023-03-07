@@ -8,7 +8,11 @@ import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
 import { useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
-import { setBlogReducer, appendBlog } from "./reducers/blogReducer";
+import {
+  setBlogReducer,
+  appendBlog,
+  incrementOfLike,
+} from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -16,7 +20,7 @@ const App = () => {
 
   const dispatch = useDispatch();
   const importBlog = useSelector((state) => state.blog);
-  console.log(importBlog, "importBlog");
+  //console.log(importBlog, "importBlog");
 
   // const [blogs, setBlogs] = useState([]);
   // console.log(blogs, "blogs of usestate");
@@ -76,14 +80,20 @@ const App = () => {
     }
   };
 
-  // const raisedLike = async (id) => {
-  //   const updatedBlog = importBlog.find((blogs) => blogs.id === id);
+  const raisedLike = async (id, updatedObject) => {
+    console.log(id, "id parameter");
+    console.log(updatedObject, "objto update parameter");
+    // const updatedBlog = blog.find((blogs) => blogs.id === id);
+    //console.log(updatedBlog, "updatedBlog");
+    //const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
+    // console.log(newBlog, "newBlog");
+    const response = await blogService.update(id, updatedObject);
 
-  //   const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
-  //   const response = await blogService.update(id, newBlog);
+    dispatch(incrementOfLike(response));
+    // console.log(response.data, "response of like");
 
-  //   setBlogs(blogs.map((blogs) => (blogs.id === id ? response : blogs)));
-  // };
+    // importBlog.map((blogs) => (blogs.id === id ? response : blogs));
+  };
 
   const loginForm = () => (
     <Togglable buttonLabel="show me login">
@@ -123,7 +133,8 @@ const App = () => {
     );
   };
 
-  //const sortedBlogs = importBlog.sort((a, b) => b.likes - a.likes);
+  // let sortedBlogs = importBlog.sort((a, b) => b.likes - a.likes);
+  // console.log(sortedBlogs, "sortedBlog");
   return (
     <div>
       <h2>blogs</h2>
@@ -151,7 +162,7 @@ const App = () => {
               // blogs={blogs}
               user={user}
               // setMessage={setMessage}
-              // updateLikes={raisedLike}
+              updateLikes={raisedLike}
             />
           ))}
         </>

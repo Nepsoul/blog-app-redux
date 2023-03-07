@@ -24,10 +24,14 @@ const create = async (newObject) => {
 };
 
 const update = async (id, newObject) => {
+  //console.log(newObject, "from update api");
   const config = {
     headers: { Authorization: token },
   };
+  console.log("this is put api");
   const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+  console.log(response, "response from service put api");
+  console.log(response.data, "response.data of put api");
   return response.data;
 };
 

@@ -13,7 +13,7 @@ const store = configureStore({
     blog: blogReducer,
   },
 });
-console.log(blogReducer, "blog frm store");
+//console.log(blogReducer, "blog frm store");
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
