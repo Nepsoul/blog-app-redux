@@ -21,9 +21,15 @@ const createBlogSlice = createSlice({
       console.log(action.payload, "setBlogReducer of reducer");
       return action.payload;
     },
+
+    updateBlog(state, action) {
+      return state.map((blog) =>
+        blog.id === action.payload.id ? action.payload : blog
+      );
+    },
   },
 });
 
-export const { setBlogReducer, createBlogs, appendBlog } =
+export const { setBlogReducer, createBlogs, appendBlog, updateBlog } =
   createBlogSlice.actions;
 export default createBlogSlice.reducer;
