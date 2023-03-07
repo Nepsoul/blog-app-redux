@@ -8,11 +8,7 @@ import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
 import { useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
-import {
-  setBlogReducer,
-  appendBlog,
-  incrementOfLike,
-} from "./reducers/blogReducer";
+import { setBlogReducer, appendBlog, updateBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 
 const App = () => {
@@ -22,8 +18,8 @@ const App = () => {
   const importBlog = useSelector((state) => state.blog);
   //console.log(importBlog, "importBlog");
 
-  // const [blogs, setBlogs] = useState([]);
-  // console.log(blogs, "blogs of usestate");
+  //const [blogs, setBlogs] = useState([]);
+  //console.log(blogs, "blogs of usestate");
   //console.log(setBlogs, "setblog");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -80,19 +76,15 @@ const App = () => {
     }
   };
 
-  const raisedLike = async (id, updatedObject) => {
-    console.log(id, "id parameter");
-    console.log(updatedObject, "objto update parameter");
-    // const updatedBlog = blog.find((blogs) => blogs.id === id);
-    //console.log(updatedBlog, "updatedBlog");
-    //const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
-    // console.log(newBlog, "newBlog");
-    const response = await blogService.update(id, updatedObject);
+  const raisedLike = async (id) => {
+    const updatedBlog = importBlog.find((blogs) => blogs.id === id);
 
-    dispatch(incrementOfLike(response));
-    // console.log(response.data, "response of like");
+    console.log(updatedBlog, "update from app");
+    const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
 
-    // importBlog.map((blogs) => (blogs.id === id ? response : blogs));
+    const response = await blogService.update(id, newBlog);
+    dispatch(updateBlog(response));
+    //setBlogs(blogs.map((blogs) => (blogs.id === id ? response : blogs)));
   };
 
   const loginForm = () => (

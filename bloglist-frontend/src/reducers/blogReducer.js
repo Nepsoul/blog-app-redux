@@ -25,30 +25,14 @@ const createBlogSlice = createSlice({
       return action.payload;
     },
 
-    incrementOfLike(state, action) {
-      // console.log(state, "state of like reducer");
-      // const id = action.payload.id;
-      // // //console.log(id, "id of reducer");
-      // const updatedBlog = state.find((blogs) => blogs.id === id);
-      // console.log(updatedBlog, "updatedBlog from reducer");
-
-      // const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
-      // console.log(newBlog, "new blog from likereducer");
-      // const updatelike = state.map((blogs) =>
-      //   blogs.id === id ? newBlog : blogs
-      // );
-      // console.log(updatelike, "updatelike frm like");
-      // return updatelike;
-
-      return state.map((item) => {
-        if (item.id === action.payload.id) {
-          return { ...item, likes: item.likes + 1 };
-        } else return item;
-      });
+    updateBlog(state, action) {
+      return state.map((blog) =>
+        blog.id === action.payload.id ? action.payload : blog
+      );
     },
   },
 });
 
-export const { setBlogReducer, createBlogs, appendBlog, incrementOfLike } =
+export const { setBlogReducer, createBlogs, appendBlog, updateBlog } =
   createBlogSlice.actions;
 export default createBlogSlice.reducer;
