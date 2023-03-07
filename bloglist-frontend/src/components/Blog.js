@@ -77,12 +77,7 @@ const Blog = ({ blog, updateLikes }) => {
           <div className="url">{blog.url}</div>
           <div className="likes">
             likes: {blog.likes}{" "}
-            <button
-              id="likeButton"
-              onClick={() =>
-                updateLikes(blog.id, { ...blog, likes: blog.likes + 1 })
-              }
-            >
+            <button id="likeButton" onClick={() => updateLikes(blog.id)}>
               like
             </button>
           </div>

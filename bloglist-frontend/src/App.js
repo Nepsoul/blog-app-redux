@@ -16,11 +16,8 @@ const App = () => {
 
   const dispatch = useDispatch();
   const importBlog = useSelector((state) => state.blog);
-  //console.log(importBlog, "importBlog");
+  //console.log(importBlog, "import from store");
 
-  //const [blogs, setBlogs] = useState([]);
-  //console.log(blogs, "blogs of usestate");
-  //console.log(setBlogs, "setblog");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useState(null);
@@ -28,13 +25,7 @@ const App = () => {
 
   useEffect(() => {
     blogService.getAll().then((blogs) => dispatch(setBlogReducer(blogs)));
-    //console.log(blogs, "blogs from inside useeffect");
-    // console.log(setBlogReducer(), "setblogfunc");
-    //console.log(blogService.getAll(), "blogservice func");
-    //console.log(blogService.getAll().then(), "till then func");
   }, []);
-
-  //console.log(blogs, "blogs of data");
 
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
@@ -125,8 +116,8 @@ const App = () => {
     );
   };
 
-  // let sortedBlogs = importBlog.sort((a, b) => b.likes - a.likes);
-  // console.log(sortedBlogs, "sortedBlog");
+  const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
+  console.log(sortedBlogs, "sortedBlog");
   return (
     <div>
       <h2>blogs</h2>
@@ -145,7 +136,7 @@ const App = () => {
 
           <h2>new blog</h2>
           {blogForm()}
-          {importBlog.map((blog) => (
+          {sortedBlogs.map((blog) => (
             <Blog
               key={blog.id}
               blog={blog}

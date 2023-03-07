@@ -12,26 +12,18 @@ const getAll = () => {
 };
 
 const create = async (newObject) => {
-  console.log(newObject, "apinewOnj");
   const config = {
     headers: { Authorization: token },
   };
-  console.log("create api");
   const response = await axios.post(baseUrl, newObject, config);
-  console.log(response, "api response");
-  console.log(response.data, "response.data");
   return response.data;
 };
 
 const update = async (id, newObject) => {
-  //console.log(newObject, "from update api");
   const config = {
     headers: { Authorization: token },
   };
-  console.log("this is put api");
   const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
-  console.log(response, "response from service put api");
-  console.log(response.data, "response.data of put api");
   return response.data;
 };
 

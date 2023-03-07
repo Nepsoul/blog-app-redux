@@ -4,16 +4,6 @@ const createBlogSlice = createSlice({
   name: "Blogs",
   initialState: [],
   reducers: {
-    createBlogs(state, action) {
-      const content = action.payload;
-      //console.log(content, "content");
-      state.push({
-        content,
-      });
-      // state.concat({
-      //   content,
-      // });
-    },
     appendBlog(state, action) {
       //console.log(action.payload, "append");
       state.push(action.payload);
@@ -33,6 +23,6 @@ const createBlogSlice = createSlice({
   },
 });
 
-export const { setBlogReducer, createBlogs, appendBlog, updateBlog } =
+export const { setBlogReducer, appendBlog, updateBlog } =
   createBlogSlice.actions;
 export default createBlogSlice.reducer;
