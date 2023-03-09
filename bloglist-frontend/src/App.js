@@ -96,10 +96,10 @@ const App = () => {
   };
 
   const handleBlogCreate = async (blogObject) => {
-    console.log(blogObject, "within the create blgObj 107");
+    //console.log(blogObject, "within the create blgObj 107");
     const returnedBlog = await blogService.create(blogObject);
-    console.log(blogObject, "blgObj line 109");
-    console.log(returnedBlog, "returnedBlog");
+    //console.log(blogObject, "blgObj line 109");
+    //console.log(returnedBlog, "returnedBlog");
     dispatch(appendBlog(returnedBlog));
     // setBlogs(blogs.concat(returnedBlog));
     //console.dir(noteFormRef.current(), "noteform");
@@ -117,7 +117,8 @@ const App = () => {
   };
 
   const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
-  console.log(sortedBlogs, "sortedBlog");
+  //console.log(sortedBlogs, "sortedBlog");
+
   return (
     <div>
       <h2>blogs</h2>
@@ -140,7 +141,6 @@ const App = () => {
             <Blog
               key={blog.id}
               blog={blog}
-              //importBlog={importBlog}
               // setBlogs={setBlogs}
               // blogs={blogs}
               user={user}

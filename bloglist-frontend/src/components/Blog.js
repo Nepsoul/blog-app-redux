@@ -1,6 +1,7 @@
 import { useState } from "react";
-// import blogService from "../services/blogs";
-// import { useDispatch } from "react-redux";
+import blogService from "../services/blogs";
+import { deleteBlog } from "../reducers/blogReducer";
+import { useDispatch } from "react-redux";
 // import { setNotification } from "../reducers/notificationReducer";
 // import { useSelector } from "react-redux";
 
@@ -8,14 +9,8 @@ const Blog = ({ blog, updateLikes }) => {
   const [display, setDisplay] = useState(false);
 
   //console.log(blog, "blog");
-  //console.log(blogs, "blogs from component");
-  //console.log(setBlogs, "setBlogs from component");
 
-  //const blogReducer = useSelector((state) => state.blog);
-  //console.log(blogReducer, "blogReducer from blog");
-  //const dispatch = useDispatch();
-  // console.log(blog, "blog");
-  // console.log(blogs, "blogsss");
+  const dispatch = useDispatch();
 
   const blogStyle = {
     paddingTop: 10,
@@ -29,16 +24,17 @@ const Blog = ({ blog, updateLikes }) => {
     setDisplay(!display);
   };
 
-  // const increasedLikes = (id) => {
-  //   updateLikes(id, blog.likes + 1);
-  // };
+  const deletedBlog = async (id) => {
+    console.log(id, "id from del service");
+    await blogService.remove(id);
+    // console.log(toRemove, "toRemove from Blog");
+    dispatch(deleteBlog(id));
 
-  // const deletedBlog = async (id) => {
-  //   // await blogService.remove(id);
-  //   const del = blogs.find((blog) => blog.id === id);
-  //   //setBlogs(blogs.filter((blog) => blog.id !== id));
-  //   // console.log(del, "itis de");
-  //   // console.log(blog.id, "blog id from del file");
+    // const del = blogs.find((blog) => blog.id === id);
+  };
+  //setBlogs(blogs.filter((blog) => blog.id !== id));
+  // console.log(del, "itis de");
+  // console.log(blog.id, "blog id from del file");
   //   const notifyMessage = window.confirm(
   //     `Remove blog "${del.title}" by ${del.author}`
   //   );
@@ -89,6 +85,9 @@ const Blog = ({ blog, updateLikes }) => {
                 color: "brown",
                 backgroundColor: "lightpink",
                 font: " bold",
+              }}
+              onClick={() => {
+                deletedBlog(blog.id);
               }}
             >
               remove

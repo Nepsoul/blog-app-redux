@@ -16,13 +16,19 @@ const createBlogSlice = createSlice({
     },
 
     updateBlog(state, action) {
+      //console.log(action.payload, "blog reducer");
       return state.map((blog) =>
         blog.id === action.payload.id ? action.payload : blog
       );
     },
+
+    deleteBlog(state, action) {
+      console.log(action, "action from del reducer");
+      return state.filter((blog) => blog.id !== action.payload);
+    },
   },
 });
 
-export const { setBlogReducer, appendBlog, updateBlog } =
+export const { setBlogReducer, appendBlog, updateBlog, deleteBlog } =
   createBlogSlice.actions;
 export default createBlogSlice.reducer;
