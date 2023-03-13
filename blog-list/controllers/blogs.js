@@ -84,7 +84,18 @@ blogsRouter.post("/", async (request, response, next) => {
       user.blogs = user.blogs.concat(newBlog._id);
       //console.log(user.blogs);
       await user.save();
-      response.status(201).json(newBlog);
+      // newBlog.user = { username: user.username, name: user.name, id: user.id };
+      // console.log(newBlog, "newblog");
+      let sendResp = {
+        title: newBlog.title,
+        id: newBlog.id,
+        author: newBlog.author,
+        url: newBlog.url,
+        likes: newBlog.likes,
+        user: { username: user.username, name: user.name, id: user.id },
+      };
+
+      response.status(201).json(sendResp);
     }
   } catch (error) {
     next(error);
