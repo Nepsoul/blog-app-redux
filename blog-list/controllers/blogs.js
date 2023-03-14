@@ -30,13 +30,10 @@ blogsRouter.get("/:id", async (request, response, next) => {
 //   }
 //   return null;
 // };
-console.log("i am out of post blog");
 
 blogsRouter.post("/", async (request, response, next) => {
   //console.log(body.userId);
-  console.log("im posst blog");
   try {
-    console.log("i am try blog");
     const body = request.body;
     // const token = getTokenFrom(request);
     // console.log(token);
@@ -53,13 +50,11 @@ blogsRouter.post("/", async (request, response, next) => {
     }
 
     //for checking if title and url missing
-    console.log("im in out of if blog");
     if (!(body.title || body.url)) {
       response.status(400).json({ error: "missing property" });
     } else {
-      console.log("im else blog");
       const token = request.token;
-      console.log(token);
+      //console.log(token);
       const decodedToken = jwt.verify(token, process.env.SECRET);
       //console.log(decodedToken, "i am decoded token");
       if (!decodedToken.id) {
@@ -84,18 +79,17 @@ blogsRouter.post("/", async (request, response, next) => {
       user.blogs = user.blogs.concat(newBlog._id);
       //console.log(user.blogs);
       await user.save();
-      // newBlog.user = { username: user.username, name: user.name, id: user.id };
       // console.log(newBlog, "newblog");
-      let sendResp = {
-        title: newBlog.title,
-        id: newBlog.id,
-        author: newBlog.author,
-        url: newBlog.url,
-        likes: newBlog.likes,
-        user: { username: user.username, name: user.name, id: user.id },
-      };
+      // let sendResp = {
+      //   title: newBlog.title,
+      //   id: newBlog.id,
+      //   author: newBlog.author,
+      //   url: newBlog.url,
+      //   likes: newBlog.likes,
+      //   user: { username: user.username, name: user.name, id: user.id },
+      // };
 
-      response.status(201).json(sendResp);
+      response.status(201).json(newBlog);
     }
   } catch (error) {
     next(error);
@@ -114,18 +108,15 @@ blogsRouter.delete("/:id", async (request, response, next) => {
     const user = request.user;
     const blogId = request.params.id;
     const blog = await Blog.findById(blogId);
-    console.log(blog);
-    console.log(blogId, "blogId");
     if (!blog) {
       return response.status(404).json({ error: "this id does not exist" });
     }
 
-    console.log(blog.user.toString(), "112");
-    console.log(user.id.toString(), "113");
+    //console.log(blog.user.toString(), "112");
+    //console.log(user.id.toString(), "113");
 
     if (blog.user.toString() === user.id.toString()) {
       await Blog.findByIdAndRemove(blogId);
-      console.log("imuser in 113");
       //await Blog.findByIdAndRemove(request.params.id);
       response.status(204).json({ message: "deleted successfully" }).end();
     } else {

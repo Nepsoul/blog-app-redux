@@ -80,8 +80,8 @@ const Blog = ({ blog, updateLikes, user }) => {
           </div>
           <div>{blog.author}</div>
           <div>
-            {console.log(blog.user.id, "blog.user.id")}
-            {console.log(user.id, "user.id")}
+            {/* {console.log(blog.user.id, "blog.user.id")}
+            {console.log(user.id, "user.id")} */}
             {/* {console.log(blog.user, "blog.user")} */}
             {/* {console.log(blog.id, "blog.id")} */}
 
@@ -108,34 +108,3 @@ const Blog = ({ blog, updateLikes, user }) => {
 };
 
 export default Blog;
-// {blog.user.id === user.id || blog.user ? (
-//   <button
-//     id="remove-button"
-//     style={{
-//       color: "brown",
-//       backgroundColor: "lightpink",
-//       font: " bold",
-//     }}
-//     onClick={() => {
-//       deletedBlog(blog.id);
-//     }}
-//   >
-//     remove
-//   </button>
-// ) : null}
-
-{
-  /* <button
-              id="remove-button"
-              style={{
-                color: "brown",
-                backgroundColor: "lightpink",
-                font: " bold",
-              }}
-              onClick={() => {
-                deletedBlog(blog.id);
-              }}
-            >
-              remove
-            </button> */
-}

@@ -5,25 +5,20 @@ const createBlogSlice = createSlice({
   initialState: [],
   reducers: {
     appendBlog(state, action) {
-      //console.log(action.payload, "append");
+      action.payload.user = { id: action.payload.user };
       state.push(action.payload);
     },
     setBlogReducer(state, action) {
-      // console.log(state, "state");
-      // console.log(action, "action");
-      // console.log(action.payload, "setBlogReducer of reducer");
       return action.payload;
     },
 
     updateBlog(state, action) {
-      //console.log(action.payload, "blog reducer");
       return state.map((blog) =>
         blog.id === action.payload.id ? action.payload : blog
       );
     },
 
     deleteBlog(state, action) {
-      console.log(action, "action from del reducer");
       return state.filter((blog) => blog.id !== action.payload);
     },
   },
