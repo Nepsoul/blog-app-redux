@@ -70,12 +70,20 @@ const App = () => {
 
   const raisedLike = async (id) => {
     const updatedBlog = importBlog.find((blogs) => blogs.id === id);
-    // console.log(updatedBlog, "update from app");
+    //console.log(updatedBlog, "update from app");
     const newBlog = { ...updatedBlog, likes: updatedBlog.likes + 1 };
-
     const response = await blogService.update(id, newBlog);
     dispatch(updateBlog(response));
     //setBlogs(blogs.map((blogs) => (blogs.id === id ? response : blogs)));
+    dispatch(
+      setNotification({
+        message: `you have liked "${newBlog.title}" blog which was added by "${newBlog.author}"`,
+        type: "update",
+      })
+    );
+    setTimeout(() => {
+      dispatch(setNotification({ message: null, type: null }));
+    }, 5000);
   };
 
   const loginForm = () => (
