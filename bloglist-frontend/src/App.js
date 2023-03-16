@@ -11,6 +11,7 @@ import { setNotification } from "./reducers/notificationReducer";
 import { setBlogReducer, appendBlog, updateBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 const App = () => {
   const noteFormRef = useRef();
@@ -19,6 +20,7 @@ const App = () => {
   const importBlog = useSelector((state) => state.blog);
   const loginUser = useSelector((state) => state.loggedInUser);
   //console.log(importBlog, "import from store");
+  //console.log(loginUser, "loginUser");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -127,38 +129,82 @@ const App = () => {
   const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
   //console.log(sortedBlogs, "sortedBlog");
 
+  const Users = () => {
+    return (
+      <div>
+        <h2>Users</h2>
+        <div>{loginUser.username}</div>
+      </div>
+    );
+  };
+
+  const Error = () => {
+    return (
+      <div>
+        <h2>URL not Matched</h2>
+      </div>
+    );
+  };
+
+  const Home = () => {
+    return (
+      <div>
+        <h2>new blog</h2>
+        {blogForm()}
+        {sortedBlogs.map((blog) => (
+          <Blog
+            key={blog.id}
+            blog={blog}
+            // setBlogs={setBlogs}
+            // blogs={blogs}
+            user={loginUser}
+            // setMessage={setMessage}
+            updateLikes={raisedLike}
+          />
+        ))}
+      </div>
+    );
+  };
+
   return (
-    <div>
-      <h2>blogs</h2>
+    <Router>
+      <div>
+        <h2>blogs</h2>
 
-      {/* <Notification message={message?.message} type={message?.type} /> */}
-      <Notification />
-      {loginUser === null ? (
-        <>
-          <h2>log into application</h2>
-          {loginForm()}
-        </>
-      ) : (
-        <>
-          <span>{loginUser.name} logged-in </span>
-          <button onClick={logOut}>log out</button>
+        {/* <Notification message={message?.message} type={message?.type} /> */}
+        <Notification />
+        {loginUser === null ? (
+          <>
+            <h2>log into application</h2>
+            {loginForm()}
+          </>
+        ) : (
+          <>
+            <span>{loginUser.name} logged-in </span>
+            <button onClick={logOut}>log out</button>
+            <Routes>
+              <Route path="/*" element={<Error />} />
+              <Route path="/users" element={<Users />} />
+              <Route path="/" element={<Home />} />
+            </Routes>
 
-          <h2>new blog</h2>
-          {blogForm()}
-          {sortedBlogs.map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              // setBlogs={setBlogs}
-              // blogs={blogs}
-              user={loginUser}
-              // setMessage={setMessage}
-              updateLikes={raisedLike}
-            />
-          ))}
-        </>
-      )}
-    </div>
+            {/* <h2>new blog</h2>
+            {blogForm()}
+            {sortedBlogs.map((blog) => (
+              <Blog
+                key={blog.id}
+                blog={blog}
+                // setBlogs={setBlogs}
+                // blogs={blogs}
+                user={loginUser}
+                // setMessage={setMessage}
+                updateLikes={raisedLike}
+              />
+            ))} */}
+          </>
+        )}
+      </div>
+    </Router>
   );
 };
 
