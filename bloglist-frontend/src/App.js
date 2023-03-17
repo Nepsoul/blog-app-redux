@@ -8,10 +8,11 @@ import BlogForm from "./components/BlogForm";
 import loginService from "./services/login";
 import { useDispatch } from "react-redux";
 import { setNotification } from "./reducers/notificationReducer";
-import { setBlogReducer, appendBlog, updateBlog } from "./reducers/blogReducer";
+import { appendBlog, updateBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { setBlog } from "./reducers/blogReducer";
 
 const App = () => {
   const noteFormRef = useRef();
@@ -28,7 +29,7 @@ const App = () => {
   // const [message, setMessage] = useState({ message: null, type: null });
 
   useEffect(() => {
-    blogService.getAll().then((blogs) => dispatch(setBlogReducer(blogs)));
+    dispatch(setBlog());
   }, []);
 
   useEffect(() => {
