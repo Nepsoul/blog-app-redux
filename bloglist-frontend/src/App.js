@@ -142,17 +142,34 @@ const App = () => {
   const Users = () => {
     return (
       <div>
-        <h2>Users</h2>
-        <div>{loginUser.username}</div>
-        <div>
+        {/* <h2>Users</h2> */}
+        {/* <div>{loginUser.username}</div> */}
+        {/* <div>
           {userList.map((user) => {
             return (
-              <div key={user.id}>
-                <p>{user.username}</p>
-              </div>
+             
             );
           })}
-        </div>
+        </div> */}
+
+        <table>
+          <thead>
+            <tr>
+              <th style={{ padding: "25px 0 5px 0" }}>Users</th>
+              <th style={{ padding: "25px 0 5px 0" }}>blogs created</th>
+            </tr>
+          </thead>
+          <tbody>
+            {userList.map((user) => {
+              return (
+                <tr key={user.id}>
+                  <td>{user.username}</td>
+                  <td style={{ padding: "0 100px" }}>{user.blogs.length}</td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
       </div>
     );
   };
