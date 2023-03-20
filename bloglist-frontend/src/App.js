@@ -13,23 +13,23 @@ import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { setBlog } from "./reducers/blogReducer";
-//import { setAllUser } from "./reducers/userReducer";
+import { setAllUser } from "./reducers/userReducer";
 const App = () => {
   const noteFormRef = useRef();
 
   const dispatch = useDispatch();
   const importBlog = useSelector((state) => state.blog);
   const loginUser = useSelector((state) => state.loggedInUser);
-  //const allUser = useSelector((state) => state.user);
+  const allUser = useSelector((state) => state.user);
   //console.log(allUser, "alluser");
-  //console.log(allUser.username, "username");
   //console.log(importBlog, "import from store");
   //console.log(loginUser, "loginUser");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [userList, setUserList] = useState([]);
-  console.log(userList, "userlist");
+  // const [userList, setUserList] = useState([]);
+  // console.log(userList, "userlist");
+
   // const [user, setUser] = useState(null);
   // const [message, setMessage] = useState({ message: null, type: null });
 
@@ -136,22 +136,12 @@ const App = () => {
   //console.log(sortedBlogs, "sortedBlog");
 
   useEffect(() => {
-    blogService.getAllUsers().then((user) => setUserList(user));
+    blogService.getAllUsers().then((user) => dispatch(setAllUser(user)));
   }, []);
 
   const Users = () => {
     return (
       <div>
-        {/* <h2>Users</h2> */}
-        {/* <div>{loginUser.username}</div> */}
-        {/* <div>
-          {userList.map((user) => {
-            return (
-             
-            );
-          })}
-        </div> */}
-
         <table>
           <thead>
             <tr>
@@ -160,7 +150,7 @@ const App = () => {
             </tr>
           </thead>
           <tbody>
-            {userList.map((user) => {
+            {allUser.map((user) => {
               return (
                 <tr key={user.id}>
                   <td>{user.username}</td>
