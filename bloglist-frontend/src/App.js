@@ -21,7 +21,7 @@ const App = () => {
   const importBlog = useSelector((state) => state.blog);
   const loginUser = useSelector((state) => state.loggedInUser);
   const allUser = useSelector((state) => state.user);
-  //console.log(allUser, "alluser");
+  // console.log(allUser, "alluser");
   //console.log(importBlog, "import from store");
   //console.log(loginUser, "loginUser");
 
@@ -35,16 +35,25 @@ const App = () => {
 
   useEffect(() => {
     dispatch(setBlog());
-  }, []);
 
-  useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       dispatch(setLoggedInUser(user));
       blogService.setToken(user.token);
     }
+
+    blogService.getAllUsers().then((user) => dispatch(setAllUser(user)));
   }, []);
+
+  // useEffect(() => {
+  //   const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
+  //   if (loggedUserJSON) {
+  //     const user = JSON.parse(loggedUserJSON);
+  //     dispatch(setLoggedInUser(user));
+  //     blogService.setToken(user.token);
+  //   }
+  // }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -135,9 +144,9 @@ const App = () => {
   const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
   //console.log(sortedBlogs, "sortedBlog");
 
-  useEffect(() => {
-    blogService.getAllUsers().then((user) => dispatch(setAllUser(user)));
-  }, []);
+  // useEffect(() => {
+  //   blogService.getAllUsers().then((user) => dispatch(setAllUser(user)));
+  // }, []);
 
   const Users = () => {
     return (
