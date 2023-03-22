@@ -11,11 +11,15 @@ import { setNotification } from "./reducers/notificationReducer";
 import { appendBlog, updateBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { setBlog } from "./reducers/blogReducer";
 import { setAllUser } from "./reducers/userReducer";
+
+import { useNavigate, useMatch } from "react-router-dom";
 const App = () => {
   const noteFormRef = useRef();
+
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
   const importBlog = useSelector((state) => state.blog);
@@ -32,7 +36,6 @@ const App = () => {
 
   // const [user, setUser] = useState(null);
   // const [message, setMessage] = useState({ message: null, type: null });
-
   useEffect(() => {
     dispatch(setBlog());
 
@@ -43,17 +46,8 @@ const App = () => {
       blogService.setToken(user.token);
     }
 
-    blogService.getAllUsers().then((user) => dispatch(setAllUser(user)));
+    blogService.getAllUsers().then((users) => dispatch(setAllUser(users)));
   }, []);
-
-  // useEffect(() => {
-  //   const loggedUserJSON = window.localStorage.getItem("loggedBlogappUser");
-  //   if (loggedUserJSON) {
-  //     const user = JSON.parse(loggedUserJSON);
-  //     dispatch(setLoggedInUser(user));
-  //     blogService.setToken(user.token);
-  //   }
-  // }, []);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -118,6 +112,7 @@ const App = () => {
   const logOut = () => {
     window.localStorage.removeItem("loggedBlogappUser");
     dispatch(setLoggedInUser(null));
+    navigate("/");
   };
 
   const handleBlogCreate = async (blogObject) => {
@@ -135,7 +130,6 @@ const App = () => {
   const blogForm = () => {
     return (
       <Togglable buttonLabel="create new blog" ref={noteFormRef}>
-        {/* <BlogForm /> */}
         <BlogForm createBlog={handleBlogCreate} />
       </Togglable>
     );
@@ -143,10 +137,6 @@ const App = () => {
 
   const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
   //console.log(sortedBlogs, "sortedBlog");
-
-  // useEffect(() => {
-  //   blogService.getAllUsers().then((user) => dispatch(setAllUser(user)));
-  // }, []);
 
   const Users = () => {
     return (
@@ -162,7 +152,9 @@ const App = () => {
             {allUser.map((user) => {
               return (
                 <tr key={user.id}>
-                  <td>{user.username}</td>
+                  <td>
+                    <Link to={`/users123/` + user.id}>{user.username}</Link>
+                  </td>
                   <td style={{ padding: "0 100px" }}>{user.blogs.length}</td>
                 </tr>
               );
@@ -201,45 +193,59 @@ const App = () => {
     );
   };
 
-  return (
-    <Router>
+  const IndividualUser = () => {
+    if (!userLink) {
+      //to remove error while refreshing individual user's created blog i.e. refreshing this component
+      return null;
+    }
+    return (
       <div>
-        <h2>blogs</h2>
-
-        {/* <Notification message={message?.message} type={message?.type} /> */}
-        <Notification />
-        {loginUser === null ? (
-          <>
-            <h2>log into application</h2>
-            {loginForm()}
-          </>
-        ) : (
-          <>
-            <span>{loginUser.name} logged-in </span>
-            <button onClick={logOut}>log out</button>
-            <Routes>
-              <Route path="/*" element={<Error />} />
-              <Route path="/users" element={<Users />} />
-              <Route path="/" element={<Home />} />
-            </Routes>
-
-            {/* <h2>new blog</h2>
-            {blogForm()}
-            {sortedBlogs.map((blog) => (
-              <Blog
-                key={blog.id}
-                blog={blog}
-                // setBlogs={setBlogs}
-                // blogs={blogs}
-                user={loginUser}
-                // setMessage={setMessage}
-                updateLikes={raisedLike}
-              />
-            ))} */}
-          </>
-        )}
+        <h2>{userLink.username}</h2>
+        <h2>Added Blogs</h2>
+        <div>
+          <ul>
+            {userLink.blogs.map((blog) => (
+              <li key={blog.id}>{blog.title}</li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </Router>
+    );
+  };
+
+  const match = useMatch("users123/:hello123");
+  const userLink = match
+    ? allUser.length > 0
+      ? allUser.find((user) => user.id === match.params.hello123)
+      : null
+    : null;
+
+  //console.log(Number(match.params.id), "parm match id");
+
+  return (
+    <div>
+      <h2>blogs</h2>
+
+      {/* <Notification message={message?.message} type={message?.type} /> */}
+      <Notification />
+      {loginUser === null ? (
+        <>
+          <h2>log into application</h2>
+          {loginForm()}
+        </>
+      ) : (
+        <>
+          <span>{loginUser.name} logged-in </span>
+          <button onClick={logOut}>log out</button>
+          <Routes>
+            <Route path="/users123/:id" element={<IndividualUser />} />
+            <Route path="/*" element={<Error />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/" element={<Home />} />
+          </Routes>
+        </>
+      )}
+    </div>
   );
 };
 
