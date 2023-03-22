@@ -1,5 +1,6 @@
 const express = require("express");
 const cors = require("cors");
+const path = require("path");
 const middleware = require("./utils/middleware");
 
 const blogsRouter = require("./controllers/blogs");
@@ -20,6 +21,11 @@ App.use(middleware.userExtractor); //register the middleware for refactor token
 App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
 App.use("/api/users", usersRouter); //for userRouter
 App.use("/api/login", loginRouter);
+
+//route for any relative route directed to html file
+App.use("*", function request(req, res) {
+  res.sendFile(path.join(__dirname, "build/index.html"));
+});
 
 if (process.env.NODE_ENV === "test") {
   const testingRouter = require("./controllers/testingRouter");
