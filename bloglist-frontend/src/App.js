@@ -191,7 +191,7 @@ const App = () => {
             />
             <Route path="/*" element={<Error />} />
             <Route path="/users" element={<UsersList allUser={allUser} />} />
-            <Route path="/blogs" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route
               path="/blogs/:id"
               element={

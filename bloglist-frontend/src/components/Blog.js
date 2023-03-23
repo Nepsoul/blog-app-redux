@@ -61,7 +61,7 @@ const Blog = ({ blog, updateLikes, user }) => {
     <div style={blogStyle}>
       {!display ? (
         <div className="blog">
-          <Link to={blog.id}>
+          <Link to={`/blogs/` + blog.id}>
             {blog.title} {blog.author}
           </Link>
           <button className={"view"} onClick={showToggle}>
@@ -74,9 +74,7 @@ const Blog = ({ blog, updateLikes, user }) => {
             <h2>{blog.title}</h2>
             <button onClick={showToggle}>hide</button>
           </div>
-          <div className="url">
-            <Link to="/`${blog}`/`${blog.url}`">{blog.url}</Link>
-          </div>
+          <div className="url">{blog.url}</div>
           <div className="likes">
             likes: {blog.likes}{" "}
             <button id="likeButton" onClick={() => updateLikes(blog.id)}>

@@ -7,6 +7,7 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
     : null;
 
   if (!singleBlog) return null;
+
   return (
     <div>
       <h2>Blogs</h2>
