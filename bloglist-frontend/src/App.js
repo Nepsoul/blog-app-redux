@@ -11,11 +11,14 @@ import { setNotification } from "./reducers/notificationReducer";
 import { appendBlog, updateBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { setBlog } from "./reducers/blogReducer";
 import { setAllUser } from "./reducers/userReducer";
+import UsersList from "./components/UsersList";
+import IndividualUser from "./components/IndividaulUser";
+import BlogDetail from "./components/BlogDetail";
 
-import { useNavigate, useMatch } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 const App = () => {
   const noteFormRef = useRef();
 
@@ -138,33 +141,6 @@ const App = () => {
   const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
   //console.log(sortedBlogs, "sortedBlog");
 
-  const Users = () => {
-    return (
-      <div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ padding: "25px 0 5px 0" }}>Users</th>
-              <th style={{ padding: "25px 0 5px 0" }}>blogs created</th>
-            </tr>
-          </thead>
-          <tbody>
-            {allUser.map((user) => {
-              return (
-                <tr key={user.id}>
-                  <td>
-                    <Link to={`/users123/` + user.id}>{user.username}</Link>
-                  </td>
-                  <td style={{ padding: "0 100px" }}>{user.blogs.length}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-    );
-  };
-
   const Error = () => {
     return (
       <div>
@@ -193,35 +169,6 @@ const App = () => {
     );
   };
 
-  const IndividualUser = () => {
-    if (!userLink) {
-      //to remove error while refreshing individual user's created blog i.e. refreshing this component
-      return null;
-    }
-    return (
-      <div>
-        <h2>{userLink.username}</h2>
-        <h2>Added Blogs</h2>
-        <div>
-          <ul>
-            {userLink.blogs.map((blog) => (
-              <li key={blog.id}>{blog.title}</li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    );
-  };
-
-  const match = useMatch("users123/:hello123");
-  const userLink = match
-    ? allUser.length > 0
-      ? allUser.find((user) => user.id === match.params.hello123)
-      : null
-    : null;
-
-  //console.log(Number(match.params.id), "parm match id");
-
   return (
     <div>
       <h2>blogs</h2>
@@ -238,10 +185,22 @@ const App = () => {
           <span>{loginUser.name} logged-in </span>
           <button onClick={logOut}>log out</button>
           <Routes>
-            <Route path="/users123/:id" element={<IndividualUser />} />
+            <Route
+              path="/users123/:id"
+              element={<IndividualUser allUser={allUser} />}
+            />
             <Route path="/*" element={<Error />} />
-            <Route path="/users" element={<Users />} />
-            <Route path="/" element={<Home />} />
+            <Route path="/users" element={<UsersList allUser={allUser} />} />
+            <Route path="/blogs" element={<Home />} />
+            <Route
+              path="/blogs/:id"
+              element={
+                <BlogDetail
+                  sortedBlogs={sortedBlogs}
+                  updateLikes={raisedLike}
+                />
+              }
+            />
           </Routes>
         </>
       )}

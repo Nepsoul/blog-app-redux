@@ -1,5 +1,6 @@
 import axios from "axios";
 const baseUrl = "/api/blogs";
+//const userUrl = "http://localhost:3003/api/users"; //if in json file proxy has not been given this url
 const userUrl = "/api/users";
 
 let token = null;

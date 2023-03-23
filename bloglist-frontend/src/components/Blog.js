@@ -4,6 +4,7 @@ import { deleteBlog } from "../reducers/blogReducer";
 import { useDispatch } from "react-redux";
 import { setNotification } from "../reducers/notificationReducer";
 // import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 
 const Blog = ({ blog, updateLikes, user }) => {
   const [display, setDisplay] = useState(false);
@@ -60,7 +61,9 @@ const Blog = ({ blog, updateLikes, user }) => {
     <div style={blogStyle}>
       {!display ? (
         <div className="blog">
-          {blog.title} {blog.author}
+          <Link to={blog.id}>
+            {blog.title} {blog.author}
+          </Link>
           <button className={"view"} onClick={showToggle}>
             view
           </button>
@@ -68,10 +71,12 @@ const Blog = ({ blog, updateLikes, user }) => {
       ) : (
         <div>
           <div>
-            {blog.title}
+            <h2>{blog.title}</h2>
             <button onClick={showToggle}>hide</button>
           </div>
-          <div className="url">{blog.url}</div>
+          <div className="url">
+            <Link to="/`${blog}`/`${blog.url}`">{blog.url}</Link>
+          </div>
           <div className="likes">
             likes: {blog.likes}{" "}
             <button id="likeButton" onClick={() => updateLikes(blog.id)}>
