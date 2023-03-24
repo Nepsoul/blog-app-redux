@@ -11,7 +11,7 @@ import { setNotification } from "./reducers/notificationReducer";
 import { appendBlog, updateBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Link } from "react-router-dom";
 import { setBlog } from "./reducers/blogReducer";
 import { setAllUser } from "./reducers/userReducer";
 import UsersList from "./components/UsersList";
@@ -152,7 +152,7 @@ const App = () => {
   const Home = () => {
     return (
       <div>
-        <h2>new blog</h2>
+        <h2>Blog App</h2>
         {blogForm()}
         {sortedBlogs.map((blog) => (
           <Blog
@@ -171,8 +171,6 @@ const App = () => {
 
   return (
     <div>
-      <h2>blogs</h2>
-
       {/* <Notification message={message?.message} type={message?.type} /> */}
       <Notification />
       {loginUser === null ? (
@@ -182,8 +180,22 @@ const App = () => {
         </>
       ) : (
         <>
-          <span>{loginUser.name} logged-in </span>
-          <button onClick={logOut}>log out</button>
+          <div
+            style={{
+              padding: "5px",
+              border: " 3px solid #82D2F7",
+              backgroundColor: "#ccc",
+            }}
+          >
+            <span>
+              <Link to="/">Blogs</Link>
+            </span>{" "}
+            <span>
+              <Link to="/users">Users</Link>
+            </span>{" "}
+            <span>{loginUser.name} logged-in </span>
+            <button onClick={logOut}>log out</button>
+          </div>
           <Routes>
             <Route
               path="/users123/:id"
