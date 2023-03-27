@@ -13,7 +13,7 @@ import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
 import { Routes, Route, Link } from "react-router-dom";
 import { setBlog } from "./reducers/blogReducer";
-import { setAllUser } from "./reducers/userReducer";
+import { setAllUser, appendUserBlog } from "./reducers/userReducer";
 import UsersList from "./components/UsersList";
 import IndividualUser from "./components/IndividaulUser";
 import BlogDetail from "./components/BlogDetail";
@@ -124,6 +124,7 @@ const App = () => {
     //console.log(blogObject, "blgObj line 109");
     // console.log(returnedBlog, "returnedBlog");
     dispatch(appendBlog(returnedBlog));
+    dispatch(appendUserBlog(returnedBlog));
     // setBlogs(blogs.concat(returnedBlog));
     //console.dir(noteFormRef.current(), "noteform");
     noteFormRef.current();
@@ -172,7 +173,11 @@ const App = () => {
   return (
     <div>
       {/* <Notification message={message?.message} type={message?.type} /> */}
-      <Notification />
+      <div>
+        {" "}
+        <Notification />
+      </div>
+      &nbsp;
       {loginUser === null ? (
         <>
           <h2>log into application</h2>
@@ -190,9 +195,11 @@ const App = () => {
             <span>
               <Link to="/">Blogs</Link>
             </span>{" "}
+            &nbsp;
             <span>
               <Link to="/users">Users</Link>
             </span>{" "}
+            &nbsp;
             <span>{loginUser.name} logged-in </span>
             <button onClick={logOut}>log out</button>
           </div>
