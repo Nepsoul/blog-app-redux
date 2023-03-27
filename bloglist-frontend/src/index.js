@@ -9,6 +9,7 @@ import blogReducer from "./reducers/blogReducer";
 import loggedInUserReducer from "./reducers/loggedInUserReducer";
 import userReducer from "./reducers/userReducer";
 import { BrowserRouter as Router } from "react-router-dom";
+import commentReducer from "./reducers/commentReducer";
 
 const store = configureStore({
   reducer: {
@@ -16,6 +17,7 @@ const store = configureStore({
     blog: blogReducer,
     loggedInUser: loggedInUserReducer,
     user: userReducer,
+    comments: commentReducer,
   },
 });
 

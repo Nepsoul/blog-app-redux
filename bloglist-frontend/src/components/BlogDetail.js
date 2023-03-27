@@ -1,5 +1,7 @@
 import { Link, useMatch } from "react-router-dom";
 import { useState } from "react";
+import { setCommentStore } from "../reducers/commentReducer";
+import { useSelector, useDispatch } from "react-redux";
 
 const BlogDetail = ({ sortedBlogs, updateLikes }) => {
   const blogMatch = useMatch("/blogs/:id");
@@ -7,13 +9,17 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
     ? sortedBlogs.find((blog) => blog.id === blogMatch.params.id)
     : null;
 
+  const commentStore = useSelector((state) => state.comments);
+  const dispatch = useDispatch();
+  //console.log(commentStore, "cmtstore");
+
   const [inputValue, setInputValue] = useState("");
-  const [comments, setComment] = useState([]);
+  //const [comments, setComment] = useState([]);
 
   const handleBlogComment = (e) => {
     e.preventDefault();
-    const newComment = { id: comments.length + 1, content: inputValue };
-    setComment([...comments, newComment]);
+    const newComment = { id: commentStore.length + 1, content: inputValue };
+    dispatch(setCommentStore([...commentStore, newComment]));
     setInputValue("");
   };
 
@@ -53,7 +59,7 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
           />
           <button type="submit">submit</button>
           <ul>
-            {comments.map((cmt) => {
+            {commentStore.map((cmt) => {
               return <li key={cmt.id}>{cmt.content}</li>;
             })}
           </ul>
