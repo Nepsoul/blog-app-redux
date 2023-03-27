@@ -1,5 +1,6 @@
 import { Link, useMatch } from "react-router-dom";
 import { useState } from "react";
+
 const BlogDetail = ({ sortedBlogs, updateLikes }) => {
   const blogMatch = useMatch("/blogs/:id");
   const singleBlog = blogMatch
@@ -9,14 +10,12 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
   if (!singleBlog) return null;
 
   const [inputValue, setInputValue] = useState("");
-  const [comment, setComment] = useState([]);
-  console.log(comment, "comment");
-  console.log(inputValue, "inptvalue");
+  const [comments, setComment] = useState([]);
 
   const handleBlogComment = (e) => {
     e.preventDefault();
-    const newComment = { id: comment.length + 1, content: inputValue };
-    setComment([...comment, newComment]);
+    const newComment = { id: comments.length + 1, content: inputValue };
+    setComment([...comments, newComment]);
     setInputValue("");
   };
   return (
@@ -53,7 +52,7 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
           <button type="submit">submit</button>
         </div>
         <ul>
-          {comment.map((cmt) => {
+          {comments.map((cmt) => {
             return <li key={cmt.id}>{cmt.content}</li>;
           })}
         </ul>
