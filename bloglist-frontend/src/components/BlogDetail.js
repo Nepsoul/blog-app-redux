@@ -7,8 +7,6 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
     ? sortedBlogs.find((blog) => blog.id === blogMatch.params.id)
     : null;
 
-  if (!singleBlog) return null;
-
   const [inputValue, setInputValue] = useState("");
   const [comments, setComment] = useState([]);
 
@@ -18,6 +16,9 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
     setComment([...comments, newComment]);
     setInputValue("");
   };
+
+  if (!singleBlog) return "loading...";
+
   return (
     <div>
       <h2>Blogs</h2>
@@ -37,25 +38,26 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
         </button>
       </div>{" "}
       <div>added by {singleBlog.author}</div>
+      &nbsp;
       <form onSubmit={handleBlogComment}>
         <div>
-          comments{" "}
+          <strong> comments</strong>{" "}
           <input
             type="text"
-            name="comment"
+            //name="input"
             value={inputValue}
-            placeholder="comment"
+            //placeholder="input"
             onChange={(e) => {
               setInputValue(e.target.value);
             }}
           />
           <button type="submit">submit</button>
+          <ul>
+            {comments.map((cmt) => {
+              return <li key={cmt.id}>{cmt.content}</li>;
+            })}
+          </ul>
         </div>
-        <ul>
-          {comments.map((cmt) => {
-            return <li key={cmt.id}>{cmt.content}</li>;
-          })}
-        </ul>
       </form>
     </div>
   );
