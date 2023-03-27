@@ -1,5 +1,5 @@
 import { Link, useMatch } from "react-router-dom";
-
+import { useState } from "react";
 const BlogDetail = ({ sortedBlogs, updateLikes }) => {
   const blogMatch = useMatch("/blogs/:id");
   const singleBlog = blogMatch
@@ -8,6 +8,17 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
 
   if (!singleBlog) return null;
 
+  const [inputValue, setInputValue] = useState("");
+  const [comment, setComment] = useState([]);
+  console.log(comment, "comment");
+  console.log(inputValue, "inptvalue");
+
+  const handleBlogComment = (e) => {
+    e.preventDefault();
+    const newComment = { id: comment.length + 1, content: inputValue };
+    setComment([...comment, newComment]);
+    setInputValue("");
+  };
   return (
     <div>
       <h2>Blogs</h2>
@@ -27,6 +38,26 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
         </button>
       </div>{" "}
       <div>added by {singleBlog.author}</div>
+      <form onSubmit={handleBlogComment}>
+        <div>
+          comments{" "}
+          <input
+            type="text"
+            name="comment"
+            value={inputValue}
+            placeholder="comment"
+            onChange={(e) => {
+              setInputValue(e.target.value);
+            }}
+          />
+          <button type="submit">submit</button>
+        </div>
+        <ul>
+          {comment.map((cmt) => {
+            return <li key={cmt.id}>{cmt.content}</li>;
+          })}
+        </ul>
+      </form>
     </div>
   );
 };
