@@ -6,12 +6,12 @@ DELETE   http://localhost:3003/api/blogs/6333f3ac81375384346807de
 ###
 POST    http://localhost:3003/api/blogs/
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZHV4Tm90ZSIsImlkIjoiNjNmNDU4OTAyNGYxMDQ5ZDM0MjJhZTVkIiwiaWF0IjoxNjc4Njk2NDk1LCJleHAiOjE2Nzg3MDAwOTV9.EX7eHCkC88sTaxZSHvRokkfkOPvyQtp6-urGejIExTs
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJlZHV4Tm90ZSIsImlkIjoiNjNmNDU4OTAyNGYxMDQ5ZDM0MjJhZTVkIiwiaWF0IjoxNjc5OTkyNDA1LCJleHAiOjE2Nzk5OTYwMDV9.IWaFTskN9wBGgtvRqHsXKQtzM27l6KgrNmf0_O03ay4
 
 {
-   "title":"new post ",
-   "author":"funny gal",
-   "url": "nepal.com",
+   "title":"franscisco laco",
+   "author":"jpt",
+   "url": "oragami.com",
    "likes":200
    
 
@@ -34,3 +34,15 @@ content-type: application/json
    "username":"reduxNote",
    "password":"redux"
 }
+###
+POST http://localhost:3003/api/blogs/6422a666212805f6a78e3580/comments
+content-type:application/json
+
+{
+   "comment":"could be better"
+}
+
+###
+GET http://localhost:3003/api/blogs/6422a666212805f6a78e3580/comments
+
+

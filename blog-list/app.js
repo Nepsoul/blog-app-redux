@@ -6,6 +6,7 @@ const middleware = require("./utils/middleware");
 const blogsRouter = require("./controllers/blogs");
 const usersRouter = require("./controllers/users"); //creating users router
 const loginRouter = require("./controllers/login");
+const commentRouter = require("./controllers/comments");
 const App = express();
 App.use(express.static("build"));
 
@@ -21,6 +22,7 @@ App.use(middleware.userExtractor); //register the middleware for refactor token
 App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
 App.use("/api/users", usersRouter); //for userRouter
 App.use("/api/login", loginRouter);
+App.use("/api/blogs", commentRouter);
 
 //route for any relative route directed to html file
 App.use("*", function request(req, res) {
