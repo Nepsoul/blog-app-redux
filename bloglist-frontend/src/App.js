@@ -19,6 +19,9 @@ import IndividualUser from "./components/IndividaulUser";
 import BlogDetail from "./components/BlogDetail";
 
 import { useNavigate } from "react-router-dom";
+
+//import { setCommentStore } from "./reducers/commentReducer";
+
 const App = () => {
   const noteFormRef = useRef();
 
@@ -28,9 +31,6 @@ const App = () => {
   const importBlog = useSelector((state) => state.blog);
   const loginUser = useSelector((state) => state.loggedInUser);
   const allUser = useSelector((state) => state.user);
-  // console.log(allUser, "alluser");
-  //console.log(importBlog, "import from store");
-  //console.log(loginUser, "loginUser");
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -39,6 +39,16 @@ const App = () => {
 
   // const [user, setUser] = useState(null);
   // const [message, setMessage] = useState({ message: null, type: null });
+
+  const commentStore = useSelector((state) => state.comments);
+  const commentStoreLength = 0;
+
+  useEffect(() => {
+    if (commentStore.length > commentStoreLength) {
+      dispatch(setBlog());
+    }
+  }, [commentStore.length, dispatch]);
+
   useEffect(() => {
     dispatch(setBlog());
 
@@ -50,6 +60,8 @@ const App = () => {
     }
 
     blogService.getAllUsers().then((users) => dispatch(setAllUser(users)));
+
+    // blogService.getComments().then((id) => dispatch(setCommentStore(id)));
   }, []);
 
   const handleLogin = async (event) => {

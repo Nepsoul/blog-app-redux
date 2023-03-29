@@ -1,7 +1,9 @@
 import { Link, useMatch } from "react-router-dom";
 import { useState } from "react";
-import { setCommentStore } from "../reducers/commentReducer";
-import { useSelector, useDispatch } from "react-redux";
+import { addComment } from "../reducers/commentReducer";
+//import { setCommentStore } from "../reducers/commentReducer";
+import { useDispatch } from "react-redux";
+//import { setBlog } from "../reducers/blogReducer";
 
 const BlogDetail = ({ sortedBlogs, updateLikes }) => {
   const blogMatch = useMatch("/blogs/:id");
@@ -9,18 +11,24 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
     ? sortedBlogs.find((blog) => blog.id === blogMatch.params.id)
     : null;
 
-  const commentStore = useSelector((state) => state.comments);
-  const dispatch = useDispatch();
-  //console.log(commentStore, "cmtstore");
+  // const commentStore = useSelector((state) => state.comments);
 
-  const [inputValue, setInputValue] = useState("");
-  //const [comments, setComment] = useState([]);
+  //const commentSection = [...commentStore]; //directly redux store can not map, for this with new ref used
+  const dispatch = useDispatch();
+
+  // const [inputValue, setInputValue] = useState("");
+  // const [comment, setComment] = useState([]);
+  const [commentData, setCommentData] = useState({
+    comment: "",
+  });
 
   const handleBlogComment = (e) => {
     e.preventDefault();
-    const newComment = { id: commentStore.length + 1, content: inputValue };
-    dispatch(setCommentStore([...commentStore, newComment]));
-    setInputValue("");
+    //const newComment = { id: commentStore.length + 1, content: inputValue };
+    // dispatch(setCommentStore([...commentSection, newComment]));
+
+    dispatch(addComment(singleBlog.id, commentData));
+    setCommentData({ comment: "" });
   };
 
   if (!singleBlog) return "loading...";
@@ -51,20 +59,24 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
           <input
             type="text"
             //name="input"
-            value={inputValue}
+            value={commentData.comment}
             //placeholder="input"
             onChange={(e) => {
-              setInputValue(e.target.value);
+              setCommentData({ ...commentData, comment: e.target.value });
             }}
           />
           <button type="submit">submit</button>
-          <ul>
-            {commentStore.map((cmt) => {
-              return <li key={cmt.id}>{cmt.content}</li>;
-            })}
-          </ul>
         </div>
       </form>
+      {singleBlog.comments.length !== 0
+        ? singleBlog.comments.map((cmt) => (
+            <>
+              <ul>
+                <li key={cmt.id}>{cmt.comment}</li>
+              </ul>
+            </>
+          ))
+        : null}
     </div>
   );
 };
