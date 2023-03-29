@@ -22,7 +22,7 @@ App.use(middleware.userExtractor); //register the middleware for refactor token
 App.use("/api/blogs", blogsRouter); //calling blogs api via notesRouter
 App.use("/api/users", usersRouter); //for userRouter
 App.use("/api/login", loginRouter);
-App.use("/api/blogs", commentRouter);
+App.use("/api/comments", commentRouter);
 
 //route for any relative route directed to html file
 App.use("*", function request(req, res) {

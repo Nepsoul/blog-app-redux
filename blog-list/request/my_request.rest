@@ -1,3 +1,4 @@
+###
 GET  http://localhost:3003/api/blogs/
 
 ###
@@ -35,14 +36,14 @@ content-type: application/json
    "password":"redux"
 }
 ###
-POST http://localhost:3003/api/blogs/6422a666212805f6a78e3580/comments
+POST http://localhost:3003/api/comments/6410468fcb18340a23097486/
 content-type:application/json
 
 {
-   "comment":"could be better"
+   "comment":"new comment commented in blog"
 }
 
 ###
-GET http://localhost:3003/api/blogs/6422a666212805f6a78e3580/comments
+GET http://localhost:3003/api/comments/640ad80620d39150d4448b7b/
 
 
