@@ -1,8 +1,9 @@
 import { Link, useMatch } from "react-router-dom";
 import { useState } from "react";
-import { addComment } from "../reducers/commentReducer";
+//import { addNewComment } from "../reducers/commentReducer";
 //import { setCommentStore } from "../reducers/commentReducer";
 import { useDispatch } from "react-redux";
+import { setComment } from "../reducers/blogReducer";
 //import { setBlog } from "../reducers/blogReducer";
 
 const BlogDetail = ({ sortedBlogs, updateLikes }) => {
@@ -10,7 +11,7 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
   const singleBlog = blogMatch
     ? sortedBlogs.find((blog) => blog.id === blogMatch.params.id)
     : null;
-
+  //console.log(singleBlog.comments, "comt of blog detatil");
   // const commentStore = useSelector((state) => state.comments);
 
   //const commentSection = [...commentStore]; //directly redux store can not map, for this with new ref used
@@ -21,13 +22,14 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
   const [commentData, setCommentData] = useState({
     comment: "",
   });
-
+  //console.log(commentData, "cmmtndata");
   const handleBlogComment = (e) => {
     e.preventDefault();
     //const newComment = { id: commentStore.length + 1, content: inputValue };
     // dispatch(setCommentStore([...commentSection, newComment]));
 
-    dispatch(addComment(singleBlog.id, commentData));
+    // debugger;
+    dispatch(setComment(singleBlog.id, commentData));
     setCommentData({ comment: "" });
   };
 
@@ -68,15 +70,25 @@ const BlogDetail = ({ sortedBlogs, updateLikes }) => {
           <button type="submit">submit</button>
         </div>
       </form>
-      {singleBlog.comments.length !== 0
-        ? singleBlog.comments.map((cmt) => (
+      {/* {singleBlog.comments.length !== 0
+        ? singleBlog.comments.map((cmt, index) => (
             <>
               <ul>
-                <li key={cmt.id}>{cmt.comment}</li>
+                <li key={index}>{cmt.comment}</li>
               </ul>
             </>
           ))
-        : null}
+        : null} */}
+      {singleBlog.comments.map((cmt) => (
+        <div key={cmt.id}>
+          <ul>
+            <li>
+              {cmt.comment}
+              {console.log(cmt.id, "cmt")}
+            </li>
+          </ul>
+        </div>
+      ))}
     </div>
   );
 };

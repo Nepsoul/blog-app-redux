@@ -48,7 +48,8 @@ const getComments = async (id) => {
 };
 
 const createComments = async (id, newObject) => {
-  console.log("newObject", newObject);
+  //console.log("newObject", newObject);
+  //console.log("id", id);
   const response = await axios.post(`${commentUrl}/${id}`, newObject);
 
   return response.data;

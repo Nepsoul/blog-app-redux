@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react";
-import Blog from "./components/Blog";
+//import Blog from "./components/Blog";
 import Togglable from "./components/Togglable";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm";
@@ -11,7 +11,7 @@ import { setNotification } from "./reducers/notificationReducer";
 import { appendBlog, updateBlog } from "./reducers/blogReducer";
 import { useSelector } from "react-redux";
 import { setLoggedInUser } from "./reducers/loggedInUserReducer";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import { setBlog } from "./reducers/blogReducer";
 import { setAllUser, appendUserBlog } from "./reducers/userReducer";
 import UsersList from "./components/UsersList";
@@ -19,6 +19,8 @@ import IndividualUser from "./components/IndividaulUser";
 import BlogDetail from "./components/BlogDetail";
 
 import { useNavigate } from "react-router-dom";
+import LandingPage from "./components/LandingPage";
+import NavigationLink from "./components/NavigationLink";
 
 //import { setCommentStore } from "./reducers/commentReducer";
 
@@ -40,14 +42,14 @@ const App = () => {
   // const [user, setUser] = useState(null);
   // const [message, setMessage] = useState({ message: null, type: null });
 
-  const commentStore = useSelector((state) => state.comments);
-  const commentStoreLength = 0;
+  // const commentStore = useSelector((state) => state.comments);
+  // const commentStoreLength = 0;
 
-  useEffect(() => {
-    if (commentStore.length > commentStoreLength) {
-      dispatch(setBlog());
-    }
-  }, [commentStore.length, dispatch]);
+  // useEffect(() => {
+  //   if (commentStore.length > commentStoreLength) {
+  //     dispatch(setBlog());
+  //   }
+  // }, [commentStore.length, dispatch]);
 
   useEffect(() => {
     dispatch(setBlog());
@@ -131,10 +133,7 @@ const App = () => {
   };
 
   const handleBlogCreate = async (blogObject) => {
-    // console.log(blogObject, "within the create blgObj 107");
     const returnedBlog = await blogService.create(blogObject);
-    //console.log(blogObject, "blgObj line 109");
-    // console.log(returnedBlog, "returnedBlog");
     dispatch(appendBlog(returnedBlog));
     dispatch(appendUserBlog(returnedBlog));
     // setBlogs(blogs.concat(returnedBlog));
@@ -151,33 +150,12 @@ const App = () => {
     );
   };
 
-  const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
-  //console.log(sortedBlogs, "sortedBlog");
+  //const sortedBlogs = [...importBlog].sort((a, b) => b.likes - a.likes);
 
   const Error = () => {
     return (
       <div>
         <h2>URL not Matched</h2>
-      </div>
-    );
-  };
-
-  const Home = () => {
-    return (
-      <div>
-        <h2>Blog App</h2>
-        {blogForm()}
-        {sortedBlogs.map((blog) => (
-          <Blog
-            key={blog.id}
-            blog={blog}
-            // setBlogs={setBlogs}
-            // blogs={blogs}
-            user={loginUser}
-            // setMessage={setMessage}
-            updateLikes={raisedLike}
-          />
-        ))}
       </div>
     );
   };
@@ -197,24 +175,7 @@ const App = () => {
         </>
       ) : (
         <>
-          <div
-            style={{
-              padding: "5px",
-              border: " 3px solid #82D2F7",
-              backgroundColor: "#ccc",
-            }}
-          >
-            <span>
-              <Link to="/">Blogs</Link>
-            </span>{" "}
-            &nbsp;
-            <span>
-              <Link to="/users">Users</Link>
-            </span>{" "}
-            &nbsp;
-            <span>{loginUser.name} logged-in </span>
-            <button onClick={logOut}>log out</button>
-          </div>
+          <NavigationLink logOut={logOut} />
           <Routes>
             <Route
               path="/users123/:id"
@@ -222,14 +183,20 @@ const App = () => {
             />
             <Route path="/*" element={<Error />} />
             <Route path="/users" element={<UsersList allUser={allUser} />} />
-            <Route path="/" element={<Home />} />
+            <Route
+              path="/"
+              element={
+                <LandingPage
+                  blogForm={blogForm}
+                  sortedBlogs={importBlog}
+                  raisedLike={raisedLike}
+                />
+              }
+            />
             <Route
               path="/blogs/:id"
               element={
-                <BlogDetail
-                  sortedBlogs={sortedBlogs}
-                  updateLikes={raisedLike}
-                />
+                <BlogDetail sortedBlogs={importBlog} updateLikes={raisedLike} />
               }
             />
           </Routes>
